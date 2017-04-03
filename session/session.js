@@ -45,7 +45,13 @@ function Session(req, data) {
  */
 
 defineMethod(Session.prototype, 'touch', function touch() {
-  return this.resetMaxAge();
+  this.resetMaxAge();
+
+  if (typeof this.req.sessionStore.touch === 'function') {
+    this.req.sessionStore.touch(this.id, this);
+  }
+
+  return this;
 });
 
 /**
